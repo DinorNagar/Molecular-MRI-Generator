@@ -7,6 +7,7 @@
         </a>
     </h4>
 </div>
+</div>
 
 # Dependencies and Installation
 
