@@ -1,5 +1,4 @@
 <div align="center">
-
 <h1>Molecular-MRI-Generator</h1>
 <div>
     <h4 align="center">
