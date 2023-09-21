@@ -1,4 +1,3 @@
-# Molecular-MRI-Generator
 <div align="center">
 
 <h1>Molecular-MRI-Generator</h1>
