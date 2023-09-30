@@ -7,6 +7,7 @@
 <img src = "figures/architecture.png" width = "700">  
 
 <div>
+    <br>
     <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FDinorNagar%2FMolecular-MRI-Generator&label=visitors&countColor=%23263759">
     <h4 align="center">
         <a href="https://arxiv.org/abs/2305.19413" target='_blank'>
