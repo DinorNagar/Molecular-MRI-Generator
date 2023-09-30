@@ -7,14 +7,14 @@
 <img src = "figures/architecture.png" width = "700">  
 
 <div>
+    <img src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FDinorNagar%2FMolecular-MRI-Generator&label=visitors&countColor=%23263759">
     <h4 align="center">
         <a href="https://arxiv.org/abs/2305.19413" target='_blank'>
         <img src="https://img.shields.io/badge/arXiv-2305.19413-b31b1b.svg">
-        </a>
-        <img src="https://api.infinitescript.com/badgen/count?name=DinorNagar/Molecular-MRI-Generator)">
-        <img src="https://img.shields.io/badge/language-Python-214870.svg")>
+        </a> 
+        <img src="https://api.infinitescript.com/badgen/badge?ltext=language&rtext=Python&color=fc9003")>
     </h4>
-
+    
 </div>
 【<a href='https://github.com/DinorNagar' target='_blank'>Dinor Nagar</a> |
 <a href='https://github.com/operlman' target='_blank'>Or Perlman</a> |
