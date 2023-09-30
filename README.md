@@ -4,7 +4,7 @@
 <h1>Dynamic and Rapid Deep Synthesis of Molecular MRI Signals
 </h1>
 
-<img src="D:\Thesis\cest-mrf-main-or-github\Jupyter Notebooks\git code\figures\architecture.png" width="700">
+<img src = "figures/architecture.png" width = "700">  
 
 <div>
     <h4 align="center">
