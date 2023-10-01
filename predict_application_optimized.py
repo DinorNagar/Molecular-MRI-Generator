@@ -34,6 +34,18 @@ def create_directory_if_not_exists(directory_path):
 
 
 def get_tp_Trec_values(string):
+    """
+    Splits the numbers described in the string and return them as an array.
+
+    Parameters:
+    string (str): Dictionary name.
+
+    Returns:
+    float: Parameter B0
+    float: Parameter tp
+    float: Parameter Trec
+    int: Parameter n_pulses
+    """
     numbers = re.findall(r'\d+\.\d+|\d+', string)
     B0 = numbers[-4]
     tp = numbers[-3]
@@ -44,6 +56,12 @@ def get_tp_Trec_values(string):
 
 
 def create_model_architecture():
+    """"
+    Creates a feedforward neural network architecture.
+
+    Returns:
+    tf.keras.Sequential: The created neural network model.
+    """
     final_model = Sequential()
     final_model.add(Dense(256, input_dim=31, activation='sigmoid', kernel_initializer='he_uniform'))
     final_model.add(Dense(256, input_dim=31, activation='sigmoid', kernel_initializer='he_uniform'))
@@ -53,6 +71,15 @@ def create_model_architecture():
 
 
 def scale_data(input_data):
+    """
+    Scales the given input data.
+
+    Parameters:
+    input_data (np.array): Data array.
+
+    Returns:
+    np.array: The scaled dataset.
+    """
     num_of_parameters = 31
     scaler_x = np.array([1.6, 0.12, 1, 1, 0.1, 0.0045045, 90, 1, 0.1, 0.0014, 1000, 1, 0.1, 0.0045045, 5000, 1, 0.1,
                          0.0045045, 3500, 1.3, 0.005, 0.00675, 20, 1, 0.00004, 0.216, 30, 2.4, 3.1, 11.7, 30, 1])
@@ -63,6 +90,15 @@ def scale_data(input_data):
 
 
 def read_file_values(filename):
+    """
+    Splits the numbers described in the string and return them as an array.
+
+    Parameters:
+    filename (str): Dictionary name.
+
+    Returns:
+    np.array: Array of the parameter values described in the string.
+    """
     with open(filename, 'r') as f:
         contents = f.read()
 
@@ -77,6 +113,22 @@ def read_file_values(filename):
 
 
 def from_dict_to_data_scheme(parameter_mat, signal_matrix, tp, Trec, B0, n_pulses, samples_size):
+    """
+    Create the dataset for the model by combining the tissue and scanner parameters.
+
+    Parameters:
+    parameter_mat (np.array): Matrix of the different tissue paramter combinations.
+    signal_matrix (np.array): Matrix of the corresponding signals.
+    tp (float): The parameter tp.
+    Trec (float): The parameter Trec.
+    B0 (float): The parameter B0.
+    n_pulses (int): The number of pulses.
+    samples_size (int): The size of sampled data from the whole dictionary for training.
+
+    Returns:
+    np.array: The dataset for training.
+    np.array: The labels corresponding to the dataset.
+    """
 
     tp_vec = np.repeat(tp, samples_size, axis=0).reshape((samples_size, 1))
     Trec_vec = np.repeat(Trec, samples_size, axis=0).reshape((samples_size, 1))
@@ -89,6 +141,16 @@ def from_dict_to_data_scheme(parameter_mat, signal_matrix, tp, Trec, B0, n_pulse
 
 
 def create_dict(X, model):
+    """
+    Creates the predicted signals iteratively.
+
+    Parameters:
+    X (np.array): input data.
+    model (tf.keras.Sequential): trained model.
+
+    Returns:
+    np.array: The created signals.
+    """
     start_time = time.time()
     dict_mat = model.predict(X, batch_size=5000)
     print(f"Creating a dict took: {time.time()-start_time}")
@@ -96,6 +158,16 @@ def create_dict(X, model):
 
 
 def calc_nrmse(y_true, y_pred):
+    """
+    Calculates the nrmse of the predicted signals.
+
+    Parameters:
+    y_true (np.array): Array describes the ground truth signal elements.
+    y_pred (np.array): Array describes the predicted signal elements.
+
+    Returns:
+    float: Norm root mean square error
+    """
     rmse = np.sqrt(np.mean((y_true - y_pred)**2))
     range_signals = np.max(y_true) - np.min(y_true)
 
@@ -103,7 +175,17 @@ def calc_nrmse(y_true, y_pred):
 
 
 def create_predict_signal_figures(y_predict, y_test, save_graphs_path):
+    """
+    Create a figure of predicted signal vs actual signal for specific scenario.
 
+    Parameters:
+    y_predict (np.array): Predicted signals
+    y_test (np.array): Ground truth signals
+    save_graphs_path (str): directory of saved figure.
+
+    Returns:
+    None
+    """
     plt.figure(figsize=(15, 10))
     mpl.rcParams['xtick.labelsize'] = 25
     mpl.rcParams['ytick.labelsize'] = 25
@@ -118,8 +200,17 @@ def create_predict_signal_figures(y_predict, y_test, save_graphs_path):
 
 
 def dict_statistics(predicted_dict, sig_values, save_results_path):
+    """
+    Calculate the statistical parameters of the predicted signal elements.
 
-    """Calculate the statistic parameters of the result"""
+    Parameters:
+    predicted_dict (np.array): Array of the predicted signals.
+    sig_values (np.array): Ground truth signal matrix.
+    save_results_path (str): path for saving the results.
+
+    Returns:
+    None
+    """
     pearson_val, p_val = pearsonr(predicted_dict.flatten(), sig_values.flatten())
     nrmse = calc_nrmse(predicted_dict.flatten(), sig_values.flatten())
     with open(os.path.join(save_results_path, 'stats.txt'), 'w') as file:
@@ -147,7 +238,18 @@ def dict_statistics(predicted_dict, sig_values, save_results_path):
 
 
 def create_results_per_protocol(model, dict_path, save_results_path):
-    dict_name = os.listdir(dict_path)[0]
+    """
+    Main pipeline: import the test dictionary, create the predicted signals and calculates the statistical results.
+
+    Parameters:
+    model (tf.keras.Sequential): PreTrained model.
+    dict_path (str): The path of the test dictionary.
+    save_results_path (str): The path for saving the results.
+
+    Returns:
+    None
+    """
+    dict_name = [file for file in os.listdir(dict_path) if file.endswith(".mat")][0]
     test_dict_path = os.path.join(dict_path, dict_name)
 
     # Importing the device parameters
@@ -184,9 +286,9 @@ def create_results_per_protocol(model, dict_path, save_results_path):
 
 
 def main():
-    best_weight_path = '.\\example_scenarios\\application_optimized_network\\weights\\application_weights.hdf5'
-    final_dict_save_path = '.\\example_scenarios\\application_optimized_network\\stats'
-    test_dict_protocol_path = '.\\example_scenarios\\application_optimized_network\\test_scenario'
+    best_weight_path = './example_scenarios/application_optimized_network/weights/application_weights.hdf5'
+    final_dict_save_path = './example_scenarios/application_optimized_network/stats'
+    test_dict_protocol_path = './example_scenarios/application_optimized_network/test_scenario'
 
     create_directory_if_not_exists(final_dict_save_path)
     """Importing the model"""
