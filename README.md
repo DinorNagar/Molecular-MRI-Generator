@@ -26,30 +26,28 @@
 
 ## 📚 Overview
 
-<strong>Molecular-MRI-generator </strong> is an open-source deep learning framework that was developed to accelerate
-the molecular MRI pipeline compared to the state of the art mathematical models, such as Bloch-McConnell equations.
-In this process we predict a set of signals corresponding to a specific acquisition protocol which was created using
-a set of tissue and scanner parameters.
+<strong>Molecular-MRI-generator </strong> is an open-source deep learning framework developed to accelerate
+ molecular MRI simulations and signal dictionary generation compared to traditional numerical Bloch-McConnell solvers.
+The code generates the predicted MRI signals that correspond to a set of tissue and scanner parameters.
 
-We developed two unique architectures to address the problem:
-- <strong>Dynamic network</strong> that was trained data of 9 different acquisition protocol in a way that each prediction calculates
-the next signal element in the trajectory given the previous element. The acquisition protocols doesn't necessary have the same signal length.
-- <strong>Application optimized network</strong> that was designed for a case where a research group is interested in
-investigation a specific acquisition protocol with predefined signal length, while further accelerating the prediction
-time for each signal.
+Two architectures are available:
+- <strong>Dynamic network</strong> - trained to accomodate 9 different acquisition protocol, so that each prediction calculates
+the next signal element in the trajectory given the previous element. The acquisition protocols may generate any desired signal length.
+- <strong>Application optimized network</strong> - designed for a case where a research group is interested in
+investigation a specific acquisition protocol with a predefined signal length. This network typically results in an even faster inference.
 
-This repository hosts the code for our suggested models described in our published article. 
+Additional details are available at: https://doi.org/10.48550/arXiv.2305.19413
 
 
 ## ⚡ Getting Started
 
 ### Organizing the data
-Before setting up the framework,we first need to create the data for training or evaluating the model. We used
-Bloch-McConnell simulator that can be found <a href='https://mri-ai.github.io/' target='_blank'>here</a>. This simulator
+Before setting up the framework,we first need to create the "ground truth" reference simulated data for training or evaluating the model. We used
+the Bloch-McConnell simulator that can be found <a href=https://github.com/operlman/cest-mrf target=https://github.com/operlman/cest-mrf>here</a>. This simulator
 was implemented in MATLAB and the data is stored in dictionaries saved as .mat files. To arrange the dataset
 efficiently, for every simulated acquisition protocol we saved multiple dictionaries that describes multiple scenarios
 of different values of input tissue and scanner parameters. Each dictionary was named by the values of the scanner parameter.
-Furthermore, for every dictionary we created a text file with the same that contains the values of the parameter B1.
+Furthermore, for every dictionary we created a text file with the same name that contains the values of the parameter B1.
 
 An example to such dataset for a specific protocol is described below:
 
@@ -146,13 +144,12 @@ After running the corresponding example script, the following files will be crea
 
 
 ## 🚀 Contributing
-We believe in sharing information between other research group and contribute data. 
-Whether you have a question or a bug fix, please let us know.
+We believe in openly sharing information between research group and contribute data. 
+Whether you have a question or a bug to fix, please let us know. See our group websited at: https://mri-ai.github.io/
 
 
 ## 📑 References
-If you found our work useful for research or software development, 
-we would highly appreciate your support citing our linked paper.   
+If you use this code for research or software development please reference the following paper:
 ``` # TO CHANGE
 @misc{dinornagar2023molecular-mri-generator,
 title={Dynamic and Rapid Deep Synthesis of Molecular MRI Signals},
