@@ -36,8 +36,11 @@ def create_directory_if_not_exists(directory_path):
 
 
 def create_model_architecture():
-    """
-    Defines 
+    """"
+    Creates a feedforward neural network architecture.
+
+    Returns:
+    tf.keras.Sequential: The created neural network model.
     """
     final_model = Sequential()
     final_model.add(Dense(256, input_dim=14, activation='sigmoid', kernel_initializer='he_uniform'))
@@ -48,6 +51,15 @@ def create_model_architecture():
 
 
 def scale_data(input_data):
+    """
+    Scales the given input data.
+
+    Parameters:
+    input_data (np.array): Data array.
+
+    Returns:
+    np.array: The scaled dataset.
+    """
     num_of_parameters = 13
     min_val = np.array([1.3, 0.04, 1.3, 0.00004, 20/111000, 5, 0.25, 1, 1, 3, 60, -3.5, -3.5])
     max_val = np.array([3.4, 1.2, 3.4, 0.04, 30000/110000, 1500, 6, 10, 10, 11.7, 90, 4.3, 20])
@@ -61,6 +73,15 @@ def scale_data(input_data):
 
 
 def read_file_values(filename):
+    """
+    Splits the numbers described in the string and return them as an array.
+
+    Parameters:
+    filename (str): Dictionary name.
+
+    Returns:
+    np.array: Array of the parameter values described in the string.
+    """
     with open(filename, 'r') as f:
         contents = f.read()
 
@@ -75,6 +96,25 @@ def read_file_values(filename):
 
 
 def from_dict_to_data_scheme(parameter_mat, signal_matrix, tp, Trec, B1, B0, angle, samples_size, dw, offset_ppm):
+    """
+    Create the dataset for the model by combining the tissue and scanner parameters.
+
+    Parameters:
+    parameter_mat (np.array): Matrix of the different tissue paramter combinations.
+    signal_matrix (np.array): Matrix of the corresponding signals.
+    tp (float): The parameter tp.
+    Trec (float): The parameter Trec.
+    B1 (np.array): Vector representation of the parameter B1.
+    B0 (float): The parameter B0.
+    angle (int): The parameter angle.
+    samples_size (int): The size of sampled data from the whole dictionary for training.
+    dw (float): The parameter dw.
+    offset_ppm (np.array): Vector representation of the parameter offset_ppm.
+
+    Returns:
+    np.array: The dataset for training.
+    np.array: The labels corresponding to the dataset.
+    """
     repeat_parameter_mat = np.repeat(parameter_mat, B1.shape[1], axis=0)
     signal_vec_rolled = np.roll(signal_matrix, 1, axis=1)
     signal_vec_rolled[:, 0] = 1
@@ -98,6 +138,17 @@ def from_dict_to_data_scheme(parameter_mat, signal_matrix, tp, Trec, B1, B0, ang
 
 
 def create_dict(X, model, B1_length):
+    """
+    Creates the predicted signals iteratively.
+
+    Parameters:
+    X (np.array): input data.
+    model (tf.keras.Sequential): trained model.
+    B1_length (int): The length of the parameter B1.
+
+    Returns:
+    np.array: The created signals.
+    """
     start_time = time.time()
     samples = int(X.shape[0]/B1_length)
     parameters = X[:, :13]
@@ -124,6 +175,19 @@ def create_dict(X, model, B1_length):
 
 
 def create_predict_signal_figures(X, y, model, len_B1, save_graphs_path):
+    """
+    Create a figure of predicted signal vs actual signal for specific scenario.
+
+    Parameters:
+    X (np.array): Dataset
+    y (np.array): Signal vector
+    model (tf.keras.Sequential): Trained model.
+    len_B1 (int): Length of the parameter B1.
+    save_graphs_path (str): directory of saved figure.
+
+    Returns:
+    None
+    """
     tf.keras.backend.clear_session()
 
     """Signal prediction Example"""
@@ -148,6 +212,16 @@ def create_predict_signal_figures(X, y, model, len_B1, save_graphs_path):
 
 
 def calc_nrmse(y_true, y_pred):
+    """
+    Calculates the nrmse of the predicted signals.
+
+    Parameters:
+    y_true (np.array): Array describes the ground truth signal elements.
+    y_pred (np.array): Array describes the predicted signal elements.
+
+    Returns:
+    float: Norm root mean square error
+    """
     rmse = np.sqrt(np.mean((y_true - y_pred)**2))
     range_signals = np.max(y_true) - np.min(y_true)
     nrmse = rmse/range_signals
@@ -155,7 +229,18 @@ def calc_nrmse(y_true, y_pred):
 
 
 def dict_statistics(predicted_dict, sig_values,  B1_length, save_results_path):
-    """Calculate the statistic parameters of the result"""
+    """
+    Calculate the statistical parameters of the predicted signal elements.
+
+    Parameters:
+    predicted_dict (np.array): Array of the predicted signals.
+    sig_values (np.array): Ground truth signal matrix.
+    B1_length (int): The size of the vector parameter B1.
+    save_results_path (str): path for saving the results.
+
+    Returns:
+    None
+    """
 
     pearson_val, p_val = pearsonr(predicted_dict.T.reshape(B1_length*predicted_dict.shape[1]), sig_values.squeeze())
     nrmse = calc_nrmse(sig_values.squeeze(), predicted_dict.T.reshape(B1_length*predicted_dict.shape[1]))
@@ -184,9 +269,25 @@ def dict_statistics(predicted_dict, sig_values,  B1_length, save_results_path):
     plt.savefig(os.path.join(save_results_path, "statistical_graph.png"))
 
 
-def create_results_per_protocol(model, dw, dict_path, save_results_path, protocol, is_given_ppm=False):
-    dict_name = os.listdir(dict_path)[0]
-    B1_txt = os.path.join(dict_path, os.listdir(dict_path)[1])
+def create_results_per_protocol(model, dw, dict_path, save_results_path, is_given_ppm=False):
+    """
+    Main pipeline: import the test dictionary, create the predicted signals and calculates the statistical results.
+
+    Parameters:
+    model (tf.keras.Sequential): PreTrained model.
+    dw (float): The value of the parameter dw.
+    dict_path (str): The path of the test dictionary.
+    save_results_path (str): The path for saving the results.
+    is_given_ppm (bool): Indicates whether the offset_ppm parameter is given as a txt file.
+     This value is True for acquisition protocols that have changing values of offset_ppm.
+
+    Returns:
+    None
+    """
+    dict_name = [file for file in os.listdir(dict_path) if file.endswith(".mat")][0]
+    B1_txt_name = [file for file in os.listdir(dict_path) if file.endswith(".txt")][0]
+    B1_txt = os.path.join(dict_path, B1_txt_name)
+
     """Importing the device parameters"""
     numbers = re.findall(r'\d+\.*\d*', dict_name)
     tp, Trec, B0, angle = [float(num) for num in numbers if num != '0']
@@ -233,9 +334,9 @@ def create_results_per_protocol(model, dw, dict_path, save_results_path, protoco
 
 
 def main():
-    best_weight_path = '.\\example_scenarios\\dynamic_network\\weights\\dynamic_weights.hdf5'
-    final_dict_save_path = '.\\example_scenarios\\dynamic_network\\stats'
-    test_dicts_path = '.\\example_scenarios\\dynamic_network\\test_scenario'
+    best_weight_path = './example_scenarios/dynamic_network/weights/dynamic_weights.hdf5'
+    final_dict_save_path = './example_scenarios/dynamic_network/stats'
+    test_dicts_path = './example_scenarios/dynamic_network/test_scenario'
 
     const_ppm_protocols = ['cest_7T']
     const_ppm_dw = [3]
@@ -248,7 +349,7 @@ def main():
 
     for protocol, dw_i in zip(const_ppm_protocols, const_ppm_dw):
         create_results_per_protocol(loaded_model, dw_i, test_dicts_path,
-                                    final_dict_save_path, protocol, is_given_ppm=False)
+                                    final_dict_save_path, is_given_ppm=False)
         print(f"Completed protocol {protocol}")
 
 
