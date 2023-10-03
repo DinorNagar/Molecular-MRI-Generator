@@ -100,12 +100,15 @@ train-script-2
 ```
 
 2. Create an environment and install the dependencies:
-
+   
+* pip enviroment:
 ```bash
 pip install -r requirements.txt
 ```
-
-
+* conda enviroment:
+```bash
+conda env create -f enviroment.yml
+```
 
 
 ## 🏋️ Training The Model
