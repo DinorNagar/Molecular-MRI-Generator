@@ -79,7 +79,7 @@ MT
 1. Clone Repo
 
 ```bash
-git clone https://github.com/DinorNagar/Molecular-MRI-Generator.git
+git lfs clone https://github.com/DinorNagar/Molecular-MRI-Generator.git
 ```
 For efficient arrangement, make sure that the folder tree which contains both the scripts and the datasets,
 looks like the following tree:
