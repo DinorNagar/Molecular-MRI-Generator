@@ -45,14 +45,14 @@ Additional details are available at: https://doi.org/10.48550/arXiv.2305.19413
 
 1. Clone the repository
 ```bash
-git lfs clone https://github.com/DinorNagar/Molecular-MRI-Generator.git
+git clone https://github.com/DinorNagar/Molecular-MRI-Generator.git
 ```
 
-3. The following python packages are required:
+2. The following Python packages are required:
 
 numpy, scipy, tensorflow, keras, matplotlib
 
-They can either be installed manually, or via the following pip/conda files:
+They can either be installed manually, or via the following pip/Conda files:
 
 * pip enviroment:
 ```bash
