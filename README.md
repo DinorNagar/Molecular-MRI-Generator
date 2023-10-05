@@ -43,28 +43,16 @@ Additional details are available at: https://doi.org/10.48550/arXiv.2305.19413
 
 ### Setting up the environment
 
-1. Install lfs
-
-Because the example test dataset exceeds the upload limit in github, we used LFS for uploading the data.
-
-Run the following commands according to the operating system:
-
-
-```bash
-# Windows machine
-git lfs install
-
-# Linux machine
-curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-sudo apt-get install git-lfs
-```
-
-2. Clone Repository
+1. Clone the repository
 ```bash
 git lfs clone https://github.com/DinorNagar/Molecular-MRI-Generator.git
 ```
 
-3. Create an environment and install the dependencies:
+3. The following python packages are required:
+
+numpy, scipy, tensorflow, keras, matplotlib
+
+They can either be installed manually, or via the following pip/conda files:
 
 * pip enviroment:
 ```bash
@@ -154,7 +142,6 @@ MT
 ### 2. Running the training on the new dataset
 After arranging the data, run the following code according to the desired case:
 
-**Note**: make sure to change the hyperparamters according to your training case.
 ### Dynamic Network
 For the dynamic network, run the following script:
 ```bash
@@ -173,15 +160,8 @@ Whether you have a question or a bug to fix, please let us know. See our group w
 
 
 ## 📑 References
-If you use this code for research or software development please reference the following paper:
+If you use this code for research or software development please reference the following preprint:
 ``` # TO CHANGE
-@misc{dinornagar2023molecular-mri-generator,
-title={Dynamic and Rapid Deep Synthesis of Molecular MRI Signals},
-author={Dinor Nagar, Or Perlman, Nikita Vladimirov},
-year={2023},
-eprint={2305.19413},
-archivePrefix={arXiv},
-primaryClass={Physices.Medical Physics}
-}
+Nagar, D., Vladimirov, N., Farrar, C. T., & Perlman, O. (2023). Dynamic and Rapid Deep Synthesis of Molecular MRI Signals. arXiv:2305.19413.‏ https://doi.org/10.48550/arXiv.2305.19413
 ```
 
