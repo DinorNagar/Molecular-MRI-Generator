@@ -43,28 +43,12 @@ Additional details are available at: https://doi.org/10.48550/arXiv.2305.19413
 
 ### Setting up the environment
 
-1. Install lfs
-
-Because the example test dataset exceeds the upload limit in github, we used LFS for uploading the data.
-
-Run the following commands according to the operating system:
-
-
-```bash
-# Windows machine
-git lfs install
-
-# Linux machine
-curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
-sudo apt-get install git-lfs
-```
-
-2. Clone Repository
+1. Clone Repository
 ```bash
 git lfs clone https://github.com/DinorNagar/Molecular-MRI-Generator.git
 ```
 
-3. Create an environment and install the dependencies:
+2. Create an environment and install the dependencies:
 
 * pip enviroment:
 ```bash
