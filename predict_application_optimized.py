@@ -265,7 +265,12 @@ def create_results_per_protocol(model, dict_path, save_results_path):
     del parameters_matrix['__globals__']
     del parameters_matrix['sig']
 
-    array_parameters_list = list(parameters_matrix.values())
+    keys_order = ['tw1', 'tw2', 'fww', 'ts1_0', 'ts2_0', 'fss_0', 'ksw_0', 'ts1_1', 'ts2_1', 'fss_1', 'ksw_1', 'ts1_2',
+                  'ts2_2', 'fss_2', 'ksw_2', 'ts1_3', 'ts2_3', 'fss_3', 'ksw_3', 'ts1_4', 'ts2_4', 'fss_4', 'ksw_4',
+                  'tm1', 'tm2', 'fmm', 'kms']
+
+    array_parameters_list = [parameters_matrix[key] for key in keys_order]
+
     parameter_mat = np.vstack(array_parameters_list).T
     parameter_mat = parameter_mat.astype('float32')
 

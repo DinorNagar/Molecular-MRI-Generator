@@ -304,17 +304,17 @@ def create_results_per_protocol(model, dw, dict_path, save_results_path, is_give
     """Importing the tissue parameters"""
     mat_path = os.path.join(dict_path, dict_name)
     parameters_matrix = scipy.io.loadmat(mat_path)
-    t1w_i = parameters_matrix['dict']['t1w'][0][0]
-    t2w_i = parameters_matrix['dict']['t2w'][0][0]
-    t1s_i = parameters_matrix['dict']['t1s'][0][0]
-    t2s_i = parameters_matrix['dict']['t2s'][0][0]
-    fs_i = parameters_matrix['dict']['fs'][0][0]
-    ksw_i = parameters_matrix['dict']['ksw'][0][0]
+    t1w_i = parameters_matrix['test_dict']['t1w'][0][0]
+    t2w_i = parameters_matrix['test_dict']['t2w'][0][0]
+    t1s_i = parameters_matrix['test_dict']['t1s'][0][0]
+    t2s_i = parameters_matrix['test_dict']['t2s'][0][0]
+    fs_i = parameters_matrix['test_dict']['fs'][0][0]
+    ksw_i = parameters_matrix['test_dict']['ksw'][0][0]
     parameter_mat = np.hstack((t1w_i, t2w_i, t1s_i, t2s_i, fs_i, ksw_i))
     number_of_samples = parameter_mat.shape[0]
 
     """Importing the signal"""
-    signal_vec = parameters_matrix['dict']['sig'][0][0].T
+    signal_vec = parameters_matrix['test_dict']['sig'][0][0].T
 
     """Creating the test dataset"""
     data_model, signal_model = from_dict_to_data_scheme(parameter_mat, signal_vec, tp,
