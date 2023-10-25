@@ -16,8 +16,9 @@
 
 </div>
 【<a href='https://github.com/DinorNagar' target='_blank'>Dinor Nagar</a> |
-<a href='https://github.com/operlman' target='_blank'>Or Perlman</a> |
-<a href='https://github.com/vnikale' target='_blank'>Nikita Vladimirov</a>】
+<a href='https://github.com/vnikale' target='_blank'>Nikita Vladimirov</a> |
+<a href='https://farrarlab.martinos.org/' target='_blank'>Christian Farrar</a> |
+<a href='https://github.com/operlman' target='_blank'>Or Perlman</a>】
 <div>
 <a href='https://mri-ai.github.io/' target='_blank'>Momentum Lab, Tel Aviv University</a>
 </div>
@@ -36,7 +37,7 @@ the next signal element in the trajectory given the previous element. The acquis
 - <strong>Application optimized network</strong> - designed for a case where a research group is interested in
 investigation a specific acquisition protocol with a predefined signal length. This network typically results in an even faster inference.
 
-Additional details are available at: https://doi.org/10.48550/arXiv.2305.19413
+Additional details are available at: https://www.nature.com/articles/s41598-023-45548-8
 
 
 ## ⚡ Getting Started
@@ -160,8 +161,8 @@ Whether you have a question or a bug to fix, please let us know. See our group w
 
 
 ## 📑 References
-If you use this code for research or software development please reference the following preprint:
+If you use this code for research or software development please reference the following publication:
 ``` # TO CHANGE
-Nagar, D., Vladimirov, N., Farrar, C. T., & Perlman, O. (2023). Dynamic and Rapid Deep Synthesis of Molecular MRI Signals. arXiv:2305.19413.‏ https://doi.org/10.48550/arXiv.2305.19413
+Nagar, D., Vladimirov, N., Farrar, C.T., Perlman O. Dynamic and rapid deep synthesis of chemical exchange saturation transfer and semisolid magnetization transfer MRI signals. Sci Rep 13, 18291 (2023). https://doi.org/10.1038/s41598-023-45548-8
 ```
 
