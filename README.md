@@ -1,7 +1,7 @@
 <div align="center">
 
 
-<h1>[WMIC - Oral] Dynamic and Rapid Deep Synthesis of Molecular MRI Signals
+<h1>Dynamic and Rapid Deep Synthesis of Molecular MRI Signals
 </h1>
 
 <img src = "figures/architecture.png" width = "700">  
